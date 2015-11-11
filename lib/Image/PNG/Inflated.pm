@@ -7,6 +7,10 @@ my constant MAGIC = blob8.new: 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A;
 my constant TYPE  = blob8.new: 8, 6, 0, 0, 0;
                              # ^-- depth, color, compression, filter, interlace
 
+my constant IHDR = blob8.new: 'IHDR'.encode;
+my constant IDAT = blob8.new: 'IDAT'.encode;
+my constant IEND = blob8.new: 'IEND'.encode;
+
 my constant ZLIBHEADER = blob8.new(0x78, 1);
 
 my constant CRCTABLE = blob32.new:
@@ -122,9 +126,9 @@ sub join-blobs(*@blobs) {
     $buf;
 }
 
-sub chunkify(Str $type, *@blobs) {
-    my uint32 $len = [+] @blobs>>.elems;
-    my $type-and-data := join-blobs blob8.new($type.encode), @blobs;
+sub chunkify(blob8 $type, *@data) {
+    my uint32 $len = [+] @data>>.elems;
+    my $type-and-data := join-blobs $type, @data;
     be32($len), $type-and-data, be32(crc32($type-and-data));
 }
 
@@ -145,7 +149,7 @@ sub insert-filters(blob8 $in, int $w, int $h) {
 
 sub to-png(blob8 $rgba, uint32 $w, uint32 $h) is export {
     join-blobs MAGIC,
-        chunkify('IHDR', be32($w), be32($h), TYPE),
-        deflate(insert-filters($rgba, $w, $h)).map({ chunkify('IDAT', $_) }),
-        chunkify('IEND');
+        chunkify(IHDR, be32($w), be32($h), TYPE),
+        deflate(insert-filters($rgba, $w, $h)).map({ chunkify(IDAT, $_) }),
+        chunkify(IEND);
 }
