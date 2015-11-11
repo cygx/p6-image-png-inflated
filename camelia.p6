@@ -1,4 +1,3 @@
-use lib 'lib';
 use Image::PNG::Inflated;
 
 sub colors($_) {
