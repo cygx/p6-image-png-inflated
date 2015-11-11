@@ -3,7 +3,7 @@
     "version"     : "*",
     "description" : "Creates uncompressed PNG images",
     "author"      : "cygx <cygx@cpan.org>",
-    "source-url"  : "git://github.com/cygx/p6-image-png-inflated.git"
+    "source-url"  : "git://github.com/cygx/p6-image-png-inflated.git",
     "provides" : {
         "Image::PNG::Inflated" : "lib/Image/PNG/Inflated.pm"
     },
