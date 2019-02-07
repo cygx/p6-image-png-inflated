@@ -1,7 +1,5 @@
-# Copyright 2015, 2017 cygx <cygx@cpan.org>
+# Copyright 2015, 2017, 2019 cygx <cygx@cpan.org>
 # Distributed under the Boost Software License, Version 1.0
-
-use nqp;
 
 my constant MAGIC = blob8.new: 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A;
 my constant TYPE  = blob8.new: 8, 6, 0, 0, 0;
@@ -112,12 +110,11 @@ sub deflate(blob8 $bytes) {
 }
 
 sub join-blobs(*@blobs) {
-    my uint $elems = [+] @blobs>>.elems;
-    my $buf := buf8.new;
-    nqp::setelems($buf, $elems);
+    my $buf := buf8.allocate([+] @blobs>>.elems);
 
     my uint $pos = 0;
     for @blobs {
+        use nqp;
         my uint $elems = .elems;
         nqp::splice($buf, nqp::decont($_), $pos, $elems);
         $pos += $elems;
@@ -134,16 +131,14 @@ sub chunkify(blob8 $type, *@data) {
 }
 
 sub insert-filters(blob8 $in, int $w, int $h) {
-    my $out := buf8.new;
+    my $out := buf8.allocate($in.elems + $h);
     my int $skip = $w * 4;
-    nqp::setelems($out, $in.elems + $h);
 
     my int $i = 0;
     my int $o = 0;
     while $i < $in.elems {
         ++$o if $i %% $skip;
-        #$out[$o++] = $in[$i++]; -- RAKUDOBUG!
-        nqp::bindpos_i($out, $o++, nqp::atpos_i($in, $i++));
+        $out[$o++] = $in[$i++];
     }
 
     $out;
