@@ -9,8 +9,8 @@ perl6:
   - latest
 install:
   - rakudobrew build-zef
-  - git clone git://github.com/cygx/p6-image-rgba.git image-rgba
-  - zef install image-rgba
+  - git clone git://github.com/cygx/p6-image-rgba.git
+  - zef install ./p6-image-rgba
   - make pngcheck
 script:
   - make
