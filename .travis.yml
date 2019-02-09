@@ -9,8 +9,9 @@ perl6:
   - latest
 install:
   - rakudobrew build-zef
-  - gcc -o pngcheck pngcheck.c
+  - git clone git://github.com/cygx/p6-image-rgba.git image-rgba
+  - zef install image-rgba
+  - make pngcheck
 script:
+  - make
   - zef install .
-  - perl6 camelia.p6
-  - ./pngcheck camelia.png

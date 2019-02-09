@@ -1,21 +1,28 @@
 # Image::PNG::Inflated [![build status][TRAVISIMG]][TRAVIS]
 
 Creates PNG images from raw RGBA data of depth 8, chunking the data into
-uncompressed 64k blocks.
+non-compressed 64k blocks.
 
 
 ## Synopsis
 
 ```
 use Image::PNG::Inflated;
+use Image::RGBA::Sugar;
 
-my $row    = blob8.new(^256 .flatmap: { $_ xx 3, 255 });
-my $pixels = [~] $row xx 64;
-my $img    = to-png $pixels, 256, 64;
-                   # width --^    ^-- height
+# grayscale gradient
+my $row   = blob8.new(^256 .flatmap: { $_ xx 3, 255 });
+my $blob  = [~] $row xx 64;
 
-spurt 'grayscale.png', $img;
+spurt 'grayscale.png', to-png($blob, 256, 64);
+                            # width --^    ^-- height
+
+# our most beloved butterfly
+my $img = rgba::text.read('camelia.txt');
+spurt 'camelia.png', to-png($img);
 ```
+
+The only exported symbol is the `&to-png` subroutine.
 
 
 ## Bugs and Development
@@ -26,7 +33,7 @@ request, use the [issue tracker][ISSUES] over there.
 
 ## Copyright and License
 
-Copyright (C) 2015, 2017 by <cygx@cpan.org>
+Copyright (C) 2015, 2017, 2019 cygx <cygx@cpan.org>
 
 Distributed under the [Boost Software License, Version 1.0][LICENSE]
 
