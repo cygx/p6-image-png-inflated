@@ -144,9 +144,10 @@ sub insert-filters(blob8 $in, int $w, int $h) {
     $out;
 }
 
-sub to-png(blob8 $rgba, uint32 $w, uint32 $h) is export {
+sub to-png($img, uint32 $w = $img.width, uint32 $h = $img.height) is export {
+    my $blob := $img ~~ blob8 ?? $img !! $img.blob8;
     join-blobs MAGIC,
         chunkify(IHDR, be32($w), be32($h), TYPE),
-        deflate(insert-filters($rgba, $w, $h)).map({ chunkify(IDAT, $_) }),
+        deflate(insert-filters($blob, $w, $h)).map({ chunkify(IDAT, $_) }),
         chunkify(IEND);
 }
