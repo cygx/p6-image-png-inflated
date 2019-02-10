@@ -6,7 +6,7 @@ non-compressed 64k blocks.
 
 ## Synopsis
 
-```
+```perl6
 use Image::PNG::Inflated;
 use Image::RGBA::Fun;
 
