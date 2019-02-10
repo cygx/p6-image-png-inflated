@@ -22,7 +22,14 @@ my $img = rgba-load-image-from-textfile('camelia.txt');
 spurt 'camelia.png', to-png($img);
 ```
 
-The only exported symbol is the `&to-png` subroutine.
+The only exported symbol is the `&to-png` subroutine
+
+```perl6
+sub to-png($img, $w = $img.width, $h = $img.height) { ... }
+```
+
+If the `$img` argument is not of type `blob8` itself, such an object must
+be returned from the call `$img.blob8`.
 
 
 ## Bugs and Development
