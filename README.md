@@ -33,7 +33,7 @@ request, use the [issue tracker][ISSUES] over there.
 
 ## Copyright and License
 
-Copyright (C) 2015, 2017, 2019 cygx <cygx@cpan.org>
+Copyright (C) 2015, 2017, 2019 by cygx \<<cygx@cpan.org>\>
 
 Distributed under the [Boost Software License, Version 1.0][LICENSE]
 
