@@ -9,5 +9,5 @@ spurt 'grayscale.png', to-png($blob, 256, 64);
                             # width --^    ^-- height
 
 # our most beloved butterfly
-my $img = rgba-load-image-from-textfile('camelia.txt');
+my $img = load-rgba-from-textfile('camelia.txt');
 spurt 'camelia.png', to-png($img);
