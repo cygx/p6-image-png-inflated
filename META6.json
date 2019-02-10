@@ -2,7 +2,7 @@
     "perl"        : "6.*",
     "name"        : "Image::PNG::Inflated",
     "description" : "Create non-compressed PNG images",
-    "version"     : "*",
+    "version"     : "0.1.0",
     "auth"        : "github:cygx",
     "license"     : "BSL-1.0",
     "source-url"  : "git://github.com/cygx/p6-image-png-inflated.git",
